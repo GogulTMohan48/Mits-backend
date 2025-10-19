@@ -6,15 +6,15 @@ export interface IBooking extends Document {
   email: string;
   checkInDate: Date;
   checkOutDate: Date;
-  createdAt: Date;
 }
 
 const BookingSchema: Schema = new Schema({
-  name: { type: String, required: true, trim: true },
-  email: { type: String, required: true, trim: true, lowercase: true },
+  name: { type: String, required: true },
+  email: { type: String, required: true },
   checkInDate: { type: Date, required: true },
   checkOutDate: { type: Date, required: true },
-  createdAt: { type: Date, default: Date.now },
+}, {
+  timestamps: true, // This adds `createdAt` and `updatedAt` fields
 });
 
 export default mongoose.model<IBooking>('Booking', BookingSchema);

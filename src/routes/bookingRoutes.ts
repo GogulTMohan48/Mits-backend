@@ -1,11 +1,13 @@
 // src/routes/bookingRoutes.ts
-import { Router } from 'express';
+import express from 'express';
 import { createBooking, getAllBookings } from '../controllers/bookingController';
-import { bookingValidationRules, validate } from '../middleware/validation';
 
-const router = Router();
+const router = express.Router();
 
-router.post('/', bookingValidationRules(), validate, createBooking);
+// Route for creating a new booking
+router.post('/', createBooking);
+
+// Route for getting all bookings
 router.get('/', getAllBookings);
 
 export default router;
