@@ -8,11 +8,8 @@ const connectDB = async () => {
       console.error('Error: MONGO_URI is not defined in the .env file.');
       process.exit(1);
     }
-
-    // Mongoose will buffer operations until it connects, so you don't have to wait for the connection here.
-    // However, using await ensures we log the connection status correctly.
+    // Mongoose will buffer operations, but awaiting ensures we catch initial connection errors.
     await mongoose.connect(mongoURI);
-
   } catch (err) {
     console.error('Failed to connect to MongoDB');
     if (err instanceof Error) {
@@ -24,17 +21,13 @@ const connectDB = async () => {
   }
 };
 
-// Listen for Mongoose events after the initial connection attempt
+// Listen for Mongoose events for better connection management
 mongoose.connection.on('connected', () => {
   console.log('MongoDB connected successfully.');
 });
 
-mongoose.connection.on('error', (err) => {
+mongoose.connection.on('error', err => {
   console.error('MongoDB connection error:', err);
-});
-
-mongoose.connection.on('disconnected', () => {
-  console.log('MongoDB disconnected.');
 });
 
 export default connectDB;
